@@ -1,40 +1,76 @@
-# 60-Day Modern Java Architecture & Enterprise AI Engineering Sprint
-
-Targeted daily 30-minute architectural modules calibrated for a Senior/Staff Java Engineer (7+ YOE).
-
-## Daily Progress & Interview Tracker
-
-### Phase 1: Modern Java & JVM Architecture (Days 01–30)
-
-| Day | Topic | Key Interview Question | Status |
-|:---:|---|---|:---:|
-| 01 | JVM Memory Internals & Modern GC (G1 vs ZGC) | How does ZGC achieve sub-millisecond pause times compared to G1, and when would you avoid it? | [ ] |
-| 02 | Java Memory Model (JMM): Visibility & Memory Barriers | Why does `volatile` prevent instruction reordering, and how do acquire/release semantics work? | [ ] |
-| 03 | Low-Level Concurrency: CAS, `VarHandle` & Atomic Primitives | How does lock-free synchronization via CAS differ from kernel-mediated mutexes under high contention? | [ ] |
-| 04 | Modern Asynchronous Workflows: `CompletableFuture` Internals | How do you prevent thread starvation in common ForkJoinPool when chaining async I/O stages? | [ ] |
-| 05 | Modern I/O: Off-Heap Memory, Direct Buffers & Zero-Copy | What is the performance trade-off of Direct ByteBuffers vs Heap ByteBuffers in high-throughput network I/O? | [ ] |
-| 06 | Modern HTTP Engine: Java `HttpClient` & Reactive Streams | How does Java 11+ `HttpClient` handle multiplexing and backpressure without third-party libraries? | [ ] |
-| 07 | Production JVM Diagnostics: JFR, JMC & Safepoint Profiling | How do safepoint bias and Time-To-Safepoint (TTSP) issues degrade p99 latencies in production? | [ ] |
-| 08 | Modern Data Modeling: Records & Compact Constructors | How do Records guarantee shallow immutability and optimize serialization security vulnerabilities? | [ ] |
-| 09 | Pattern Matching for `switch` & Record Deconstruction | How does type pattern matching in `switch` eliminate defensive casts and handle `null` safely? | [ ] |
-| 10 | Domain Modeling: Sealed Hierarchies & Algebraic Types | How do sealed classes provide compile-time exhaustiveness, eliminating the Gang of Four Visitor Pattern? | [ ] |
-| 11 | Sequenced Collections Framework (Java 21) | What architectural inconsistencies in `Collection` and `Map` did JEP 431 resolve? | [ ] |
-| 12 | Stream Processing: Clean Code, Gatherers (JEP 461/473) | How do Stream Gatherers allow custom intermediate operations (windowing/folding) without state corruption? | [ ] |
-| 13 | Strings & Text: String Templates, Text Blocks & UTF-8 | How do modern String templates prevent injection attacks (SQL/NoSQL) at compile time? | [ ] |
-| 14 | Foreign Function & Memory (FFM) API vs Legacy JNI | How does the FFM API eliminate JNI overhead and memory leaks when invoking native C libraries? | [ ] |
-| 15 | Project Loom: Virtual Threads Architecture & Carrier Pools | What are the internals of mounting/unmounting virtual threads to OS carrier threads during blocking calls? | [ ] |
-| 16 | Loom Pitfalls: Thread Pinning & Diagnostics | What causes Virtual Thread pinning with `synchronized` blocks, and how do you detect it using JFR? | [ ] |
-| 17 | Structured Concurrency (`StructuredTaskScope`) | How does Structured Concurrency prevent thread leaks and enforce subtask cancellation deadlines? | [ ] |
-| 18 | Context Propagation: Scoped Values vs `ThreadLocal` | Why are Scoped Values superior to `ThreadLocal` in memory footprint and immutability under virtual threads? | [ ] |
-| 19 | Loom Migration: HikariCP, JDBC & Semaphore Throttling | Why should you never pool Virtual Threads, and how do you size database pools when requests explode? | [ ] |
-| 20 | Concurrency Benchmarks: Virtual Threads vs WebFlux | In what precise system design scenarios does Reactive Programming still outperform Loom? | [ ] |
-| 21 | Architectural Checkpoint: Refactoring Legacy Services to Loom | What are the end-to-end steps to refactor a thread-per-request blocking service without breaking contracts? | [ ] |
-| 22 | Spring Boot 3 Core: Jakarta EE & Reflection/Proxy Shifts | What breaking changes occur during Spring Boot 2.7 to 3.x migration regarding proxy mechanisms? | [ ] |
-| 23 | Declarative Clients: Spring 6 `RestClient` & `@HttpExchange` | When would you choose synchronous `RestClient` over reactive `WebClient` in a Java 21+ deployment? | [ ] |
-| 24 | Spring Boot 3 AOT Compilation & GraalVM Native Image | How does closed-world assumption in AOT compilation impact dynamic class loading and reflection? | [ ] |
-| 25 | Unified Observability: Micrometer Observation API | How does the Observation API unify metrics, distributed tracing (W3C/Zipkin), and context logging? | [ ] |
-| 26 | Production Resilience: Resilient Loom Microservice Adapters | How do circuit breakers and rate limiters integrate with unpooled Virtual Thread workers? | [ ] |
-| 27 | Secure Stateless Microservices: OAuth2 / OIDC & RFC 7807 | How do you implement RFC 7807 Problem Details while keeping error boundaries strictly typed? | [ ] |
-| 28 | Modern Integration Testing: Testcontainers & Dynamic Properties | How does `@DynamicPropertySource` isolate ephemeral container ports during integration tests? | [ ] |
-| 29 | JVM Optimization: CDS, AppCDS & Project Leyden | How does Application Class Data Sharing (AppCDS) drastically cut container cold-start times? | [ ] |
-| 30 | Phase 1 Capstone: High-Throughput Observable Microservice | How do you architect a Java 21 + Spring Boot 3 service handling 50k RPS with low p99 latency? | [ ] |
+Day,Topic,Key Interview Question,Status
+01,Java Type System & Memory Basics,"Explain pass-by-value in Java when passing object references, and how Escape Analysis allocates objects on the stack.",[ ]
+02,Object Contracts: equals() & hashCode(),"Why does violating the equals() and hashCode() contract break hash-based collections, and how do collisions degrade lookup?",[ ]
+03,ArrayList vs. LinkedList Internals,Why does ArrayList consistently outperform LinkedList in real-world iteration despite theoretical O(1) insertions?,[ ]
+04,HashMap Internals & Treeification,"How does HashMap compute bucket indices, resolve collisions, and transition from linked lists to red-black trees at threshold 8?",[ ]
+05,LinkedHashMap & Custom LRU Cache,"How does LinkedHashMap maintain insertion vs. access order, and how do you implement a bounded LRU cache with removeEldestEntry?",[ ]
+06,"HashSet, TreeSet & Sorted Collections","How does TreeSet guarantee sorted order via Red-Black trees, and what are the trade-offs between Comparable and Comparator?",[ ]
+07,ConcurrentHashMap Internals (Java 8+),How does Java 8+ ConcurrentHashMap achieve thread-safe operations using CAS and synchronized bucket bins instead of segment locks?,[ ]
+08,Blocking Queues & Producer-Consumer,How do ArrayBlockingQueue and LinkedBlockingQueue use dual-condition locks to handle backpressure in producer-consumer systems?,[ ]
+09,CopyOnWriteArrayList & COW Mechanics,"What is the memory and GC impact of snapshot iterators in CopyOnWriteArrayList, and when is it strictly preferable to synchronized lists?",[ ]
+10,Java Generics: Type Erasure & PECS Rule,"How does type erasure preserve backward compatibility, and how do you apply the PECS (Producer extends, Consumer super) rule?",[ ]
+11,Exception Handling & Stack Trace Cost,What is the runtime performance and safepoint penalty of creating exception stack traces under high-throughput request paths?,[ ]
+12,"Reflection, Annotations & Dynamic Proxies","How does JDK Dynamic Proxy differ from CGLIB bytecode generation, and what is the CPU penalty of runtime reflection?",[ ]
+13,JVM ClassLoaders & Memory Leak Vectors,"How does the class loader delegation hierarchy operate, and how do custom class loaders cause Metaspace memory leaks?",[ ]
+14,Serialization Vulnerabilities vs. Protobuf/JSON,"Why is native Java serialization considered an architectural vulnerability, and how do modern DTO protocols eliminate object injection?",[ ]
+15,Track 1 Capstone: Collections Architecture,"How would you design a thread-safe, low-latency in-memory cache handling 100k reads/sec with minimal GC pressure?",[ ]
+16,"OS Threads, JVM Thread Lifecycle & Schedulers",What are the physical memory and context-switching costs of operating system kernel threads mapped 1:1 to Java platform threads?,[ ]
+17,Intrinsic Locks: synchronized & Monitors,"How does the JVM optimize intrinsic locks through biased locking, thin/fat locks, and adaptive spinning?",[ ]
+18,Java Memory Model (JMM): Visibility & volatile,Why does volatile guarantee visibility and ordering via memory barriers without providing atomicity for compound operations?,[ ]
+19,Explicit Locks: ReentrantLock & Conditions,When would you favor ReentrantLock with fair ordering and non-blocking tryLock() over the intrinsic synchronized keyword?,[ ]
+20,Lock-Free Concurrency: CAS & VarHandle,"How does hardware Compare-And-Swap (CAS) work under contention, and what is the ABA problem and its mitigation?",[ ]
+21,ThreadPoolExecutor Tuning & Saturation,"How do you calculate pool core/max sizes, select work queues, and handle saturation using custom RejectedExecutionHandlers?",[ ]
+22,Coordination Primitives: Latches & Barriers,What is the architectural difference between a single-use CountDownLatch and a reusable CyclicBarrier in batch orchestration?,[ ]
+23,ThreadLocal: Architecture & Pool Leak Traps,"How does an uncleaned ThreadLocal retain heap memory in pooled worker threads, causing silent cross-request context contamination?",[ ]
+24,CompletableFuture: Composition & Pipelines,How do you compose asynchronous DAG workflows using thenCompose vs thenCombine while avoiding thread starvation in the common pool?,[ ]
+25,Fork/Join Framework & Work-Stealing Internals,How does the work-stealing algorithm in ForkJoinPool balance load across worker deques during recursive task decomposition?,[ ]
+26,Project Loom: Virtual Threads & Carrier Pools,"How does the JVM mount and unmount virtual threads to carrier threads during blocking system calls, and why must you never pool them?",[ ]
+27,Loom Pitfalls: Thread Pinning & Diagnostics,"What operations cause virtual thread carrier pinning (e.g., synchronized blocks, JNI), and how do you trace them with JFR?",[ ]
+28,Structured Concurrency (StructuredTaskScope),How does structured concurrency enforce syntactic scoping to eliminate orphaned threads and propagate cancellation down the call stack?,[ ]
+29,Scoped Values: Clean Context Propagation,"Why are Scoped Values superior to ThreadLocal in memory footprint, immutability, and child-thread inheritance under Loom?",[ ]
+30,Track 2 Capstone: High-Throughput Loom Architecture,How do you architect a high-concurrency gateway using Virtual Threads while using semaphores to protect downstream databases?,[ ]
+31,"Lambdas, Functional Interfaces & invokedynamic",How does the JVM use invokedynamic and LambdaMetafactory to instantiate lambdas without generating anonymous inner classes?,[ ]
+32,"Streams API: Pipelines, Laziness & Short-Circuiting","How does stream lazy evaluation work under the hood, and how do terminal operations trigger the traversal pipeline?",[ ]
+33,Streams Anti-Patterns & Parallel Hazards,When does switching from sequential to parallel streams degrade performance due to ForkJoinPool contention and un-splittable sources?,[ ]
+34,Optional API: Idiomatic Architecture,"Why should Optional never be used as a method parameter, class field, or inside collections, and what are its idiomatic uses?",[ ]
+35,Modern Interfaces: Default & Private Methods,"How does the JVM resolve the diamond problem with default interface methods, and how do private interface methods improve encapsulation?",[ ]
+36,Immutability: Unmodifiable Wrappers vs List.of(),"What are the architectural differences in mutability, null acceptance, and memory footprint between Collections.unmodifiableList and List.of()?",[ ]
+37,Records & Canonical Constructors,"How do Records enforce transparent carrier semantics, and how do compact constructors enforce domain invariants cleanly?",[ ]
+38,Pattern Matching for instanceof & Deconstruction,"How does type pattern matching eliminate boilerplate casting, and how do record patterns extract nested components directly?",[ ]
+39,Sealed Classes & Algebraic Data Types (ADTs),"How do sealed hierarchies model closed domain sets, providing compile-time exhaustiveness checks without fallback exceptions?",[ ]
+40,Pattern Matching for switch & Guards (when),"How does pattern matching in switch handle null safety, type decomposition, and guard conditions (when) exhaustively?",[ ]
+41,Text Blocks & Compact Strings,"How does Java manage multi-line SQL/JSON queries with Text Blocks, and how does Compact Strings save heap memory?",[ ]
+42,Sequenced Collections Framework (Java 21),"What architectural inconsistencies did JEP 431 resolve across List, Deque, and SortedSet interfaces?",[ ]
+43,Stream Gatherers (Java 22–25),How do Stream Gatherers allow custom intermediate operations (such as windowing and folding) that were previously impossible?,[ ]
+44,Foreign Function & Memory (FFM) API,"How does the FFM API enable safe, high-speed native memory allocation and C-library invocation without JNI overhead?",[ ]
+45,Track 3 Capstone: Modern Domain Modeling,"Refactor a legacy enterprise domain model into immutable Records, Sealed Hierarchies, and Pattern Matching.",[ ]
+46,Spring Core IoC & Bean Lifecycle Internals,"How do BeanFactoryPostProcessor and BeanPostProcessor intercept the bean lifecycle, and how are circular dependencies resolved?",[ ]
+47,"Spring AOP, Dynamic Proxies & @Transactional Trap","Why does invoking a @Transactional method from within the same class bypass the proxy, and how do you resolve it architecturally?",[ ]
+48,Spring Boot 3 Auto-Configuration Internals,How do @ConditionalOnClass and AutoConfiguration.imports evaluate conditional configurations during application boot?,[ ]
+49,Spring Data JPA: Entity Lifecycle & N+1 Problem,"How do you detect and mitigate the Hibernate N+1 query problem using entity graphs, join fetches, and batch fetching?",[ ]
+50,HikariCP Connection Pool Tuning with Loom,How do you size HikariCP pools when thousands of Virtual Threads attempt to acquire database connections simultaneously?,[ ]
+51,Spring MVC vs. Reactive WebFlux,In what exact architectural conditions does WebFlux still outperform Spring MVC running on Virtual Threads?,[ ]
+52,Spring Boot 3 Migration: Jakarta EE 10 Core Changes,What core architectural changes happen when migrating javax.* to jakarta.* packages and upgrading to Spring Framework 6?,[ ]
+53,Declarative Clients: Spring 6 RestClient & @HttpExchange,When would you choose synchronous RestClient over reactive WebClient in a Java 21+ Spring Boot 3 microservice?,[ ]
+54,Unified Observability: Micrometer Observation API,"How does Micrometer Observation unify application metrics, distributed tracing (W3C/B3), and contextual MDC logging?",[ ]
+55,Spring Boot 3 + Project Loom Production Integration,"What configuration changes enable Tomcat and @Async execution on Virtual Threads, and what are the operational watch-outs?",[ ]
+56,Modern API Security: OAuth2 Resource Server & JWT,"How do you architect a stateless, distributed Spring Security filter chain validating JWT claims without session storage?",[ ]
+57,Robust Error Handling: RFC 7807 Problem Details,How do you implement RFC 7807 Problem Details centrally via @ControllerAdvice to prevent internal stack leakages?,[ ]
+58,Spring Boot 3 Native Images: GraalVM AOT Compilation,"How does GraalVM Ahead-Of-Time (AOT) compilation enforce the closed-world assumption, and how do you provide runtime hints?",[ ]
+59,Integration Testing: Testcontainers & Dynamic Properties,How does @DynamicPropertySource inject ephemeral Docker container ports into the Spring Environment during integration tests?,[ ]
+60,Track 4 Capstone: Production-Ready Spring Boot 3 Service,"Design and review an observable, virtual-thread-enabled, containerized microservice ready for Kubernetes deployment.",[ ]
+61,"Enterprise GenAI Architecture: Tokens, Context & Costs","How do context window limits, token consumption budgets, and rate limits impact enterprise system design?",[ ]
+62,Spring AI Core: ChatClient & Model Portability,"How does Spring AI abstract LLM interactions, allowing runtime switching between providers (OpenAI, Anthropic, Ollama)?",[ ]
+63,Structured Output Parsers: Mapping LLM Output to Records,How do Output Converters enforce deterministic JSON generation mapped directly to strongly typed Java Records?,[ ]
+64,Vector Databases: PostgreSQL with pgvector Setup,"How does pgvector store high-dimensional vectors, and how do you design tables to support both relational data and embeddings?",[ ]
+65,Vector Indexing: HNSW vs. IVFFlat Internals,"What are the index-build, memory, and recall trade-offs between HNSW and IVFFlat when searching vector spaces?",[ ]
+66,Spring AI VectorStore: Ingestion & Metadata Filtering,How do you execute hybrid queries combining semantic vector search with relational metadata filters in Spring AI?,[ ]
+67,LangChain4j Foundations: Architecture & Memory Models,"How does LangChain4j compare to Spring AI in enterprise architectural patterns, lifecycle management, and token tracking?",[ ]
+68,Document Ingestion: Chunking Strategies & Overlap,How do chunk size and sliding token overlap influence embedding quality and prevent semantic fragmentation in RAG?,[ ]
+69,Enterprise RAG Pipelines: Retrieval-Augmented Generation,"How does an enterprise RAG pipeline augment LLM prompts with vector search context, and how do you prevent context dilution?",[ ]
+70,Advanced RAG: Re-ranking & Query Expansion (HyDE),How do cross-encoder rerankers and Hypothetical Document Embeddings (HyDE) boost retrieval accuracy over naive vector search?,[ ]
+71,Function Calling & Tool Execution Mechanics,"How does an LLM interpret JSON tool schemas to trigger Java backend business logic, and how do you handle validation failures?",[ ]
+72,LangChain4j @Tool & Declarative @AiService,How does @AiService generate dynamic proxies that execute Java methods decorated with @Tool annotations?,[ ]
+73,Autonomous Agents: ReAct (Reason + Act) Pattern,"How does the ReAct loop operate in Java, and what guards are required to prevent infinite execution loops and cascading failures?",[ ]
+74,Model Context Protocol (MCP): Enterprise Tool Servers,"What is Anthropic's Model Context Protocol (MCP), and how do you build an MCP server in Java to expose internal APIs to AI clients?",[ ]
+75,Sprint Capstone: Autonomous AI Agent with Tool Execution,"Architect, build, and audit an observable, tool-enabled AI agent service integrating Spring Boot 3, pgvector, and MCP.",[ ]
